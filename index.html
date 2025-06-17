@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.1, maximum-scale=5.0, user-scalable=yes">
+  <title>Questionário PCERJ</title>
+  <link rel="icon" href="https://i.imgur.com/vwgT06Z.png">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      cursor: default;
+      vertical-align: baseline;
+      outline: 0;
+      line-height: 1;
+      margin: 0;
+      padding: 0;
+      word-wrap: break-word;
+      text-align: left;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-danger {
+      display: flex;
+      position: relative;
+      max-width: 20%;
+      text-align: center;
+    }
+
+    .btn-success {
+      display: flex;
+      position: relative;
+      max-width: 20%;
+      text-align: center;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: white;
+      z-index: -1;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .form-top {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 60px;
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .form-title {
+      font-size: 34px;
+      margin-left: auto;
+      margin-right: auto;
+      color: black;
+    }
+
+    .img-top {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 60px 50px 35px 20px;
+      overflow-x: auto;
+    }
+    
+    .buttons{
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 0px 80px 10px 30px;
+      overflow-x: auto;
+    }
+
+    .container-perguntas-first {
+      margin-top: 20px;
+      margin-left: 50px;
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 20px;
+      padding: 10px;
+      display: flex;
+      position: relative;
+      height: 30%;
+      width: 30%;
+      flex-direction: column;
+      float: left;
+    }
+
+    .container-perguntas-second {
+      margin-top: 20px;
+      margin-left: 50px;
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      position: relative;
+      height: 30%;
+      width: 30%;
+      flex-direction: column;
+      float: left;
+    }
+
+    .container-perguntas-third {
+      margin-top: 20px;
+      margin-left: 50px;
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      position: relative;
+      height: 30%;
+      width: 30%;
+      flex-direction: column;
+      float: left;
+    }
+
+    .container-perguntas-four {
+      margin-top: 20px;
+      margin-left: 35px;
+      background-color: white;
+      border: 2px solid rgb(0, 0, 0);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      position: relative;
+      height: 900px;
+      max-width: 70%;
+      flex-direction: column;
+      float: left;
+    }
+
+    .pergunta {
+      padding: 8px;
+      border-radius: 15px;
+      color: black;
+    }
+
+    .perguntas-cola {
+      padding: 8px;
+      border-radius: 15px;
+      color: black;
+      margin-top: 270px;
+      max-height: 1%;
+      max-width: 31%;
+    }
+
+    .cola-perguntas {
+      display: flex;
+      margin-top: 23%;
+      gap: 10px;
+    }
+
+    .perguntas-cola h2 {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .pergunta h2 {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .resposta {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .respostas {
+      font-size: 15px;
+      font-weight: bold;
+      border: 1px solid black;
+      border-radius: 15px;
+      max-height: 30px;
+    }
+
+    .infos {
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      font-size: 15px;
+      font-weight: bold;
+      color: black;
+      gap: 10px;
+    }
+
+    .infos-rec {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      max-width: 50%;
+      max-height: 1%;
+      gap: 2px;
+    }
+
+    .instucoes {
+      font-weight: bold;
+      font-family: tahoma;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      max-width: 50%;
+      max-height: 1%;
+      margin-left: 70%;
+      font-size: 10px;
+      gap: 10px;
+      color: black;
+    }
+
+    textarea{
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      max-width: 200px;
+      height: 100px;
+      margin-left: 65%;
+      margin-top: -150px;
+      top: 0;
+    }
+
+    .destaque {
+      color: red;
+      font-size: 15px;
+    }
+    .destaque-2 {
+      color: red;
+      font-size: 25px;
+    }
+
+    .form-check-input{
+      border: 2px solid black;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="background"></div>
+
+  <div class="form-top">
+    <img class="img-top" src="https://i.imgur.com/vwgT06Z.png">
+    <h1 class="form-title">Questionário Recrutamento PCERJ</h1>
+  </div>
+
+  <div class="wrapper">
+    <div class="container-perguntas-first">
+      <div class="pergunta">
+        <h2>Fale: 7 códigos Q e seus respectivos significados:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-1-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-1-2" pontos="3">Acertou 2 ou 3 dos
+          Códigos</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-1-3" pontos="6">Acertou 4 ou 5 dos
+          Códigos</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-1-4" pontos="10">Acertou 6 ou Todos
+          os 7 Códigos</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Fale: Os Códigos de patrulha e seus Significados (0 ao 7):</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-2-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-2-2" pontos="3">Acertou 2 ou 3
+          dos Códigos</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-2-3" pontos="6">Acertou 4 ou 5
+          dos Códigos</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-2-4" pontos="10">Acertou 6 ou Todos
+          os 7 Códigos</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: Qual Função do P1, P2, P3 e P4 na viatura:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-3-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-3-2" pontos="5">Acertou a
+          Função de 2</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-3-3" pontos="7">Acertou a
+          Função de 3</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-3-4" pontos="10">Acertou Todas
+          as Funções</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: Qual a função de um policial civil:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-4-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-4-2" pontos="5">Resposta Media
+        </p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-4-3" pontos="10">Resposta Certa
+          ou Muito Proxima</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: O que é a CORE?</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-5-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-5-2" pontos="5">Resposta Media
+        </p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-5-3" pontos="10">Resposta Certa
+          ou Muito Proxima</p>
+      </div>
+    </div>
+  
+    <div class="container-perguntas-second">
+  
+      <div class="pergunta">
+        <h2>Pergunte: Quais são os Códigos de sirene?:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-14-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-14-2" pontos="2">Acertou 1
+          Codigo de Sirene</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-14-2" pontos="5">Acertou 2
+          Codigo de Sirene</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-14-3" pontos="10">Acertou Todos
+          os 3 Codigos de Sirene</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: Quais são os niveis de abordagem 1 , 2 e 3? e como agir em cada um deles?</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-6-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-6-2" pontos="2">Acertou 1 dos
+          Niveis de Abordagem</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-6-3" pontos="5">Acertou 2 dos
+          Niveis de Abordagem</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-6-4" pontos="10">Acertou todos
+          os 3 dos Niveis de Abordagem</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: Como é feita a Modulação de código 0:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-7-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-7-2" pontos="5">Modulação Ruim
+        </p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-7-3" pontos="10">Modulação
+          Mediana</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-7-4" pontos="15">Modulação Boa
+        </p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: Como é feita a Modulação a caminho de uma ocorrência de disparos:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-8-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-8-2" pontos="5">Modulação Ruim
+        </p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-8-3" pontos="10">Modulação
+          Mediana</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-8-4" pontos="15">Modulação Boa
+        </p>
+      </div>
+    </div>
+  
+    <div class="container-perguntas-third">
+      <div class="pergunta">
+        <h2>Pergunte: Como é feita a Modulação de acompanhamento:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-9-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-9-2" pontos="5">Modulação Ruim
+        </p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-9-3" pontos="10">Modulação
+          Mediana</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-9-4" pontos="15">Modulação Boa
+        </p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: Como é feita a Modulação de apoio:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-10-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-10-2" pontos="5">Modulação Ruim
+        </p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-10-3" pontos="10">Modulação
+          Mediana</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-10-4" pontos="15">Modulação Boa
+        </p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: O que é caixa 2?</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-11-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-11-2" pontos="5">Responta
+          Aproximada</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-11-3" pontos="10">Respondeu
+          Corretamente</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Fale: Cite a lei de Miranda:</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-12-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-12-2" pontos="5">Responta
+          Aproximada</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-12-3" pontos="10">Respondeu
+          Corretamente</p>
+      </div>
+  
+      <div class="pergunta">
+        <h2>Pergunte: Como é feita uma revista em sexo oposto?</h2>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-13-1">Errou ou Não soube
+          responder</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-13-2" pontos="5">Responta
+          Aproximada</p>
+        <p class="resposta" size="4"><input class="form-check-input" type="checkbox" id="q-13-3" pontos="10">Respondeu
+          Corretamente</p>
+      </div>
+    </div>
+  
+    <div class="container-perguntas-four">
+      <div class="infos-rec">
+        <p class="infos">Nome do Instrutor: <input class="respostas" value="Instrutor" id="instrutor-name"></p>
+        <p class="infos">ID / RG do Instrutor: <input type="number" class="respostas" id="instrutor-id"></p>
+        <p class="infos">Nome do Conscrito: <input class="respostas" value="Conscrito" id="conscrito-name"></p>
+        <p class="infos">ID / RG do Conscrito: <input type="number" class="respostas" id="conscrito-id"></p>
+        <p class="infos">N° do chapeu do conscrito: <input class="respostas" id="conscrito-chapeu" value="Sherrif"></p>
+        <p class="infos">Nota: <input type="number" class="respostas" value="0" id="conscrito-nota" readonly></p>
+        <p class="infos">Pontos por Conduta: <input type="number" class="respostas" value="0" id="conscrito-extra"></p>
+        <p class="infos">Resultado: <input class="respostas" value="Sem Nota" id="conscrito-result" readonly></p>
+      </div>
+  
+      <div class="instucoes">
+        <p>🔹<span class="destaque">Pontuação:</span> Acima de 100 pontos para aprovação</p>
+        <p>🔹<span class="destaque">Modulação:</span> Se não souber modular será reprovado.</p>
+        <p>🔹<span class="destaque">Cola ou suspeita de call externa:</span> Pergunte a coloração dos códigos de patrulha,
+          caso acerte zere a nota!</p>
+        <p>🔹<span class="destaque">Dificuldade para pular a barreira:</span> Pule a pergunta e dê nota zero.</p>
+        <p>🔹<span class="destaque">Zaralho, falta de respeito ou qualquer outra alteração não deverá ser tolerada e o
+            mesmo deverá ser expulso e punido, além de ser colocado na lista negra.</span></p>
+        <p>🔹<span class="destaque">O print desta prova é obrigatório e deverá estar anexado junto do resultado no email
+            da PCERJ.</span></p>
+      </div>
+
+      <div class="cola-perguntas">
+          <h1 style="position: absolute; top: 415px; left: 100px; z-index: 10;"><span class="destaque-2">📋 Perguntas De Cola 📋</span></h1>
+          <div class="perguntas-cola">
+            <h2>Fale: Me fale As Cores dos codigos de Patrulha (0 ao 7):</h2>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 0 (Cinza)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 1 (Lilaz)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 2 (Amarelo)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 3 (Laranja)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 4 (Verde)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 5 (Vermelho)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 6 (Azul ou Roxo)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 7 (Preto)</p>
+          </div>
+    
+          <div class="perguntas-cola">
+            <h2>Fale: Me fale As Cores dos codigos de Sirene (1, 2 e 3):</h2>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 1 (Verde)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 2 (Amarelo)</p>
+            <p class="resposta" size="4"><input class="form-check-input" type="checkbox">Código 3 (Vermelho)</p>
+          </div>
+      </div>
+
+      <div class="buttons" >
+        <button type="button" class="btn btn-danger" id="limpar-dados">Limpar Dados</button>
+        <button type="button" class="btn btn-success" id="enviar-dados">Enviar Formulario</button>
+      </div>
+
+      <textarea rows="1" cols="30" placeholder="Observações: Teve exelente conduta etc..." id="observacoes"></textarea>
+
+
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    var pontos = 0;
+    var realpoints = 0;
+    var qtdPerguntas = 0;
+
+    async function confirmarEnvio(url, nome, id, notaReal, nota, bonus, nomeInstrutor, idInstrutor, obs, numeroChapeu) {
+      let statusMessage = "Reprovado :cross_mark:"
+      let cor = 0xff0000
+      let obsMessage = ""
+
+      if (obs) {
+       obsMessage = "**"+ obs +"**"
+      }
+
+      if (parseInt(nota) >= 100) {
+        statusMessage = "Aprovado :white_check_mark:";
+        cor = 0x008000;
+      }
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: 'Recrutinha 👮',
+          avatar_url: 'https://i.imgur.com/6NXSiEN.png',
+          embeds: [
+            {
+              title: '**RECRUTAMENTO 📄**',
+              description: '**Nova nota de conscrito registrada!**',
+              color: cor,
+              fields: [
+                {
+                  name: '**Conscrito:**',
+                  value: '**[NOME]: ' + nome + '\n[ID]: ' + id + '\n[CHAPEU]: ' + numeroChapeu + '\n[NOTA REAL]: ' + notaReal + '\n[Nota]: ' + nota + '\n[NOTA BONUS]: ' + bonus + '\n[STATUS]: ' + statusMessage + '**',
+                  inline: true
+                },
+                {
+                  name: '**Instrutor:**',
+                  value: '**[NOME]: ' + nomeInstrutor + '\n[ID]: ' + idInstrutor + '**',
+                  inline: true
+                },
+                {
+                  name: '**Observações:**',
+                  value: '' + obsMessage + '',
+                  inline: true
+                },
+                {
+                  name: '**Data:**',
+                  value: '**[DATA]: ' + new Date().toISOString() + '**',
+                  inline: true
+                },
+
+                {
+                  name: '',
+                  value: '',
+                  inline: false
+                },
+                {
+                  name: '**Prova:**',
+                  value: '',
+                  inline: true
+                },
+              ],
+              footer: {
+                text: 'Bot de recrutamento desenvolvido por Cleitin.'
+              },
+              timestamp: new Date().toISOString()
+            }
+          ]
+        })
+      });
+
+      await delay(1000);
+      capturarEEnviar(id);
+
+      Swal.fire({
+          position: 'center',
+          icon: 'sucess',
+          title: 'Envio de dados concluido com sucesso!',
+          showConfirmButton: false,
+          timer: 3000
+      })
+
+      await delay(3000);
+
+      await Swal.fire({
+        title: "Deseja apagar as informações deste conscrito?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Sim",
+        denyButtonText: `Não`
+        }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            position: 'center',
+            icon: 'sucess',
+            title: 'Dados limpos!',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          limpar();
+        };
+      });
+    }
+
+    async function sendMessage(url, nome, id, notaReal, nota, bonus, nomeInstrutor, idInstrutor, obs, numeroChapeu) {
+      console.log(qtdPerguntas)
+      if (qtdPerguntas < 14) {
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ainda Faltam Perguntas a serem respondidas!',
+            showConfirmButton: true,
+            timer: 3000
+        })
+        return;
+      };
+      if (!url) return;
+
+      await Swal.fire({
+        title: "Você tem certeza que deseja enviar os dados?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Enviar",
+        denyButtonText: `Cancelar`
+        }).then((result) => {
+        if (result.isConfirmed) {
+         confirmarEnvio(url, nome, id, notaReal, nota, bonus, nomeInstrutor, idInstrutor, obs, numeroChapeu)
+        }else if (result.isDenied) {
+          Swal.fire({
+            position: 'center',
+            icon: 'sucess',
+            title: 'Envio de dados cancelado!',
+            showConfirmButton: false,
+            timer: 3000
+        })
+        };
+      });
+
+    }
+
+    function ajustarPontuacao(event) {
+      const checkbox = event.target;
+      const div = checkbox.closest(".pergunta")
+      if (!div) return;
+      const checkboxs = div.querySelectorAll('input[type="checkbox"]'); 
+      const status = checkbox.checked;
+
+      checkboxs.forEach((x) => {
+        const temporaryStatus = x.checked;
+        if (temporaryStatus && x != checkbox) {
+          x.checked = false;
+          pontos = pontos - parseInt(x.getAttribute('pontos'));
+          realpoints = realpoints - parseInt(x.getAttribute('pontos'));
+          qtdPerguntas = qtdPerguntas - 1;
+        }
+      })
+ 
+      const points = parseInt(checkbox.getAttribute('pontos')) || 0
+      if (status) {
+        realpoints = realpoints + points
+        pontos = pontos + points
+        qtdPerguntas = qtdPerguntas + 1
+      } else {
+        realpoints = realpoints - points
+        pontos = pontos - points
+        qtdPerguntas = qtdPerguntas - 1
+      }
+
+      if (pontos > 160) {
+        pontos = 160;
+      }
+
+      document.getElementById("conscrito-nota").value = pontos || 0
+
+      if (pontos >= 100) {
+        document.getElementById("conscrito-result").value = "Aprovado";
+      } else {
+        document.getElementById("conscrito-result").value = "Reprovado";
+      }
+      
+    }
+
+    document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+      checkbox.addEventListener('change', ajustarPontuacao);
+    });
+
+    var lastpoints = 0;
+
+    document.getElementById("conscrito-extra").addEventListener('change', function () {
+      if (parseInt(document.getElementById("conscrito-extra").value) == 0) {
+        document.getElementById("conscrito-nota").value = realpoints;
+        pontos = realpoints;
+        lastpoints = 0;
+
+        if (pontos >= 100) {
+          document.getElementById("conscrito-result").value = "Aprovado";
+        } else {
+          document.getElementById("conscrito-result").value = "Reprovado";
+        }
+        return;
+      }
+      if (!parseInt(document.getElementById("conscrito-extra").value)) return;
+      document.getElementById("conscrito-nota").value = document.getElementById("conscrito-nota").value - lastpoints;
+      lastpoints = parseInt(document.getElementById("conscrito-extra").value);
+      document.getElementById("conscrito-nota").value = parseInt(document.getElementById("conscrito-nota").value) + parseInt(document.getElementById("conscrito-extra").value);
+      pontos = parseInt(document.getElementById("conscrito-nota").value);
+
+      if (pontos >= 100) {
+        document.getElementById("conscrito-result").value = "Aprovado";
+      } else {
+        document.getElementById("conscrito-result").value = "Reprovado";
+      }
+    });
+
+    function limpar() {
+      document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
+      realpoints = 0;
+      pontos = 0;
+      qtdPerguntas = 0;
+      document.getElementById("conscrito-name").value = "";
+      document.getElementById("conscrito-id").value = "";
+      document.getElementById("conscrito-chapeu").value = "Sherrif";
+      document.getElementById("conscrito-nota").value = "0";
+      document.getElementById("conscrito-extra").value = "0";
+      document.getElementById("conscrito-result").value = "Sem Nota";
+      document.getElementById("observacoes").value = "";
+    }
+
+    function capturarHTMLComRespostas() {
+      const htmlCompleto = document.documentElement.cloneNode(true); // Clone do HTML
+
+      const inputs = htmlCompleto.querySelectorAll('input, textarea, select');
+
+      inputs.forEach(input => {
+        if (input.type === 'radio' || input.type === 'checkbox') {
+          input.checked = input.checked;
+        } else {
+          input.value = input.value;
+        }
+      });
+
+      return htmlCompleto.outerHTML;
+    }
+
+    async function capturarEEnviar(id) {
+      const webhookURL = "https://discordapp.com/api/webhooks/1366165073122295940/L6dUsXcdJm6lWD3lyeNsZIhj9vkLXeBGTMIZNl84qGhBddY6YZS5z0uS_oAX93ExV5o7";
+      let img = false;
+      const canvas = await html2canvas(document.body, {
+        width: 1500,
+        height: 1300,
+        windowWidth: 1500,
+        windowHeight: 1300
+      });
+
+      canvas.toBlob(async function (blob) {
+        const formData = new FormData();
+
+        formData.append("file", blob, "prova_conscrito_" + id + ".png");
+
+        const payload = {
+          username: "Recrutinha 👮",
+          avatar_url: "https://i.imgur.com/6NXSiEN.png"
+        };
+
+        formData.append("payload_json", JSON.stringify(payload));
+
+        const response = await fetch(webhookURL, {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) {
+          console.error("Erro ao enviar para o Discord:", await response.text());
+        }
+
+        img = true;
+      }, "image/png");
+
+      while (!img) {
+        await delay(100);
+      }
+
+      fetch(webhookURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: 'Recrutinha 👮',
+          avatar_url: 'https://i.imgur.com/6NXSiEN.png',
+          content: 'https://cdn.discordapp.com/attachments/1352329536112427102/1367202681512529960/linha.gif?ex=6813ba38&is=681268b8&hm=e09735cdfbdec14640b21062c4e028937f5ddc280e1b70ac878800d202888ac0&',
+        }),
+      });
+    }
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    document.getElementById("limpar-dados").addEventListener('click', function () {
+      limpar()
+    });
+
+    // nome, id, notaReal, nota, bonus, nomeInstrutor, idInstrutor, obs
+    document.getElementById("enviar-dados").addEventListener('click', function () {
+      var link = "https://discordapp.com/api/webhooks/1366165073122295940/L6dUsXcdJm6lWD3lyeNsZIhj9vkLXeBGTMIZNl84qGhBddY6YZS5z0uS_oAX93ExV5o7";
+      var nomeConscrito = document.getElementById("conscrito-name").value || "";
+      var idConscrito = document.getElementById("conscrito-id").value || 0;
+
+      var nomeInstrutor = document.getElementById("instrutor-name").value || "";
+      var idInstrutor = document.getElementById("instrutor-id").value || 0;
+      var numeroChapeu = document.getElementById("conscrito-chapeu").value || "";
+
+      var nota = document.getElementById("conscrito-nota").value || 0;
+      var bonus = document.getElementById("conscrito-extra").value || 0;
+
+      var obs = document.getElementById("observacoes").value || "";
+      if (link && nomeConscrito != "" && nomeConscrito != "Conscrito" && idConscrito != 0 && nomeInstrutor != "" && nomeInstrutor != "Instrutor" && idInstrutor != 0 && numeroChapeu != "") {
+        sendMessage(link, nomeConscrito, idConscrito, realpoints, nota, bonus, nomeInstrutor, idInstrutor, obs, numeroChapeu);
+      }else{
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ainda Faltam Informações a serem preenchidas (Nome, id, etc...)!',
+            showConfirmButton: true,
+            timer: 3000
+        })
+      }
+      
+    });
+  </script>
+</body>
+</html>
